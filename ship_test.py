@@ -172,7 +172,8 @@ for i in range(len(inverse_matrix)):
 			else:
 				std_matrix[i].append("None")
 			sheet3.write(j+excel3_y, i, std_matrix[i][j])
-	print("dic: {0}".format(dic))
+
+	#std distribute
 	for k in dic.items():
 		sheet4.write(excel4_y, 2*i-1, k[0] )
 		sheet4.write(excel4_y, 2*i, k[1] )
@@ -187,5 +188,3 @@ cursor.execute("select * from kyma order by `Serial` DESC limit 1 ")
 kyma = cursor.fetchall()
 '''
 db_connect.close()
-a = -0.123
-print(int(a))
