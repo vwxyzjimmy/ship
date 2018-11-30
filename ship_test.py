@@ -11,7 +11,7 @@ book = xlwt.Workbook(encoding="utf-8")
 sheet1 = book.add_sheet("original-data")
 sheet2 = book.add_sheet("min-max")
 sheet3 = book.add_sheet("z-score-1")
-sheet4 = book.add_sheet("z-score-2 std distribute number")
+sheet4 = book.add_sheet("z-score-2 Standard Deviation distribute number")
 
 db_connect = pymysql.connect("140.116.39.173", "root", "rootroot", "shipping", charset="utf8")
 cursor = db_connect.cursor()
@@ -36,7 +36,7 @@ for i in range(len(temp)):
 	sheet3.write(excel3_y, i, column)
 	if i != 0:
 		sheet4.write(excel4_y, i*2, 'Number')
-		sheet4.write(excel4_y, i*2-1, column + ' std distribute')
+		sheet4.write(excel4_y, i*2-1, column + ' standard deviation distribution')
 	else:
 		sheet4.write(excel4_y, i, column)
 excel1_y = excel1_y + 1
