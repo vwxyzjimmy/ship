@@ -161,6 +161,7 @@ for i in range(len(inverse_matrix)):
 				std_matrix[i].append(int(inverse_matrix[i][j]))
 			except:
 				std_matrix[i].append(0)
+			sheet3.write(j+excel3_y, i, std_matrix[i][j])
 		else:
 			if inverse_matrix[i][j] != -999:
 				std_matrix[i].append((inverse_matrix[i][j]-mean_number[i])/std_number[i])
