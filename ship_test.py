@@ -11,7 +11,7 @@ book = xlwt.Workbook(encoding="utf-8")
 sheet1 = book.add_sheet("original-data")
 sheet2 = book.add_sheet("min-max")
 sheet3 = book.add_sheet("z-score-1")
-sheet4 = book.add_sheet("z-score-2 Standard Deviation distribute number")
+sheet4 = book.add_sheet("z-score-2 std distribute number")
 
 db_connect = pymysql.connect("140.116.39.173", "root", "rootroot", "shipping", charset="utf8")
 cursor = db_connect.cursor()
@@ -174,12 +174,20 @@ for i in range(len(inverse_matrix)):
 			sheet3.write(j+excel3_y, i, std_matrix[i][j])
 
 	#std distribute
+	key = dic.keys()
+	key.sort()
+	for k in key:
+		sheet4.write(excel4_y, 2*i-1, k )
+		sheet4.write(excel4_y, 2*i, dic[k] )
+		excel4_y = excel4_y + 1
+	excel4_y = 1
+	'''	
 	for k in dic.items():
 		sheet4.write(excel4_y, 2*i-1, k[0] )
 		sheet4.write(excel4_y, 2*i, k[1] )
 		excel4_y = excel4_y + 1
 	excel4_y = 1
-
+	'''
 book.save(filename)
 '''
 cursor.execute("select * from mfm order by `Serial` DESC limit 1 ")
