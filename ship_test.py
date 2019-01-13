@@ -62,12 +62,14 @@ for i in range(len(data)):
 		try:
 			float_matrix[i].append(float(tmp[j].strip("u").strip("'")))
 		except:
-			float_matrix[i].append(-999)
+			#float_matrix[i].append(-999)
+			pass
 		try:
 			sheet1.write(i+excel1_y, j, float(data_matrix[i][j]))
 			
 		except:
 			sheet1.write(i+excel1_y, j, data_matrix[i][j])
+			pass
 inverse_matrix = map(list, zip(*float_matrix))
 
 #min-max normalization

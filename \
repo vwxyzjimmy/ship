@@ -1,0 +1,15 @@
+import pyexcel as pe
+import pyexcel.ext.xls
+import os
+import sys
+filename = sys.argv[1] + '.xlsx'
+
+path_here = os.getcwd() + '/'
+print(path_here)
+file_path = path_here + filename
+print(file_path)
+total_matrix = pe.get_array(file_name = file_path)
+print(total_matrix)
+
+
+
