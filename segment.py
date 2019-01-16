@@ -123,16 +123,23 @@ while count < len(ser_lalo_array[0])-2:
 			#print("stop point:{0}".format(count))
 			stop_sig = False
 			while True:
-				if count < len(ser_lalo_array[0])-2:
+				if (count < len(ser_lalo_array[0])-2):
 					is_stop = True
+					fail_count = 0
 					for i in range(20):
 						if count < len(ser_lalo_array[0])-22:
 							if (ser_lalo_array[1][count+1+i])-(ser_lalo_array[1][count+i]) != 0 or (ser_lalo_array[2][count+1+i])-(ser_lalo_array[2][count+i]) != 0 :
 								is_stop = False
 								break
+							if (ser_lalo_array[1][count]) == -999 or (ser_lalo_array[2][count]) == -999 or  (ser_lalo_array[1][count]) == 999 or (ser_lalo_array[2][count]) == 999 :
+								fail_count = fail_count + 1
+							if fail_count > 5:
+								is_stop = False
+								break
+
 					if is_stop == True:
-						start_stop_pos[0].append(count)
-						print("stop point:{0}".format(count))
+						start_stop_pos[0].append(int(ser_lalo_array[0][count]))
+						print("stop point:{0}".format(int(ser_lalo_array[0][count])))
 						stop_sig = True
 						break
 				else:
@@ -141,17 +148,24 @@ while count < len(ser_lalo_array[0])-2:
 				count = count + 1
 			if stop_sig == True:
 				while True:
-					if count < len(ser_lalo_array[0])-2:
+					if (count < len(ser_lalo_array[0])-2):
 						if (ser_lalo_array[1][count+1])-(ser_lalo_array[1][count]) != 0 or (ser_lalo_array[2][count+1])-(ser_lalo_array[2][count]) != 0:
 							is_start = True
+							fail_count = 0
 							for i in range(20):
 								if count < len(ser_lalo_array[0])-22:
 									if (ser_lalo_array[1][count+1+i])-(ser_lalo_array[1][count+i]) == 0 and (ser_lalo_array[2][count+1+i])-(ser_lalo_array[2][count+i]) == 0 :
 										is_start = False
 										break
+									if (ser_lalo_array[1][count]) == -999 or (ser_lalo_array[2][count]) == -999 or  (ser_lalo_array[1][count]) == 999 or (ser_lalo_array[2][count]) == 999 :
+										fail_count = fail_count + 1
+									if fail_count > 5:
+										is_stop = False
+										break
+										
 							if is_start == True:
-								start_stop_pos[1].append(count)
-								print("start point:{0}".format(count))
+								start_stop_pos[1].append(int(ser_lalo_array[0][count]))
+								print("start point:{0}".format(int(ser_lalo_array[0][count])))
 								break
 					else:
 						break
@@ -164,21 +178,21 @@ for i in range(len(start_stop_pos[1])):
 #print(start_stop_pos[0])
 #print(start_stop_pos[1])
 book.save(excel_file_name)
-
+print("smopying")
 hz = smopy.Map((30., 180., 45., -180.), z=3)
 ax = hz.show_mpl(figsize=(80, 60))
-for i in range(len(ser_lalo_array[0])):
+for i in range(len(ser_lalo_array[0])/10):
 	if ser_lalo_array[1][i] != -999 and ser_lalo_array[2][i] != -999 and ser_lalo_array[1][i] != 999 and ser_lalo_array[2][i] != 999:
-		x, y = hz.to_pixels(float(double_inverse_matrix[1][i]), float(double_inverse_matrix[2][i]))
+		x, y = hz.to_pixels(float(ser_lalo_array[1][i]), float(ser_lalo_array[2][i]-90))
 		plot = ax.plot(x, y, 'o', color = 'r', ms=5, mew=5)
 for i in range(len(start_stop_pos[0])):
-	if ser_lalo_array[1][start_stop_pos[0][i]] != -999 and ser_lalo_array[2][start_stop_pos[0][i]] != -999 and ser_lalo_array[1][start_stop_pos[0][i]] != 999 and ser_lalo_array[2][start_stop_pos[0][i]] != 999:
-		x, y = hz.to_pixels(float(double_inverse_matrix[1][start_stop_pos[0][i]]), float(double_inverse_matrix[2][start_stop_pos[0][i]]))
-		plot = ax.plot(x, y, 'x', color = 'g', ms=35, mew=15)
+	#if ser_lalo_array[1][start_stop_pos[0][i]] != -999 and ser_lalo_array[2][start_stop_pos[0][i]] != -999 and ser_lalo_array[1][start_stop_pos[0][i]] != 999 and ser_lalo_array[2][start_stop_pos[0][i]] != 999:
+	x, y = hz.to_pixels(float(ser_lalo_array[1][int(start_stop_pos[0][i])]), float(ser_lalo_array[2][int(start_stop_pos[0][i])-90]))
+	plot = ax.plot(x, y, 'x', color = 'g', ms=35, mew=15)
 for i in range(len(start_stop_pos[1])):
-	if ser_lalo_array[1][start_stop_pos[1][i]] != -999 and ser_lalo_array[2][start_stop_pos[1][i]] != -999 and ser_lalo_array[1][start_stop_pos[1][i]] != 999 and ser_lalo_array[2][start_stop_pos[1][i]] != 999:
-		x, y = hz.to_pixels(float(double_inverse_matrix[1][start_stop_pos[1][i]]), float(double_inverse_matrix[2][start_stop_pos[1][i]]))
-		plot = ax.plot(x, y, 'x', color = 'b', ms=35, mew=15)
+	#if ser_lalo_array[1][start_stop_pos[1][i]] != -999 and ser_lalo_array[2][start_stop_pos[1][i]] != -999 and ser_lalo_array[1][start_stop_pos[1][i]] != 999 and ser_lalo_array[2][start_stop_pos[1][i]] != 999:
+	x, y = hz.to_pixels(float(ser_lalo_array[1][int(start_stop_pos[1][i])]), float(ser_lalo_array[2][int(start_stop_pos[1][i])-90]))
+	plot = ax.plot(x, y, 'x', color = 'b', ms=35, mew=15)
 png_name = filename_split[0] + '.png'
 plt.savefig(png_name)
 
